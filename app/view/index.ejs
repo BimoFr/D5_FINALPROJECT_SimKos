@@ -1,11 +1,141 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Project Tekser</title>
-  </head>
-  <body>
-    <h1>Hello World! Silakan edit file ini.</h1>
-  </body>
-</html>
+<%- include('partials/header') %>
+
+<div class="row g-4 mb-4">
+    
+    <div class="col-md-4">
+        <div class="card h-100 border-0 text-white shadow-sm rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center shadow-sm" 
+                     style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px);">
+                    <i class="bi bi-house-door-fill fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-white text-opacity-75 text-uppercase fw-bold mb-1" style="font-size:0.75rem;">Total Kamar</h6>
+                    <h2 class="fw-bold mb-0"><%= kamar.length %> <span class="fs-6 fw-normal text-white-50">Unit</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 text-white shadow-sm rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center shadow-sm" 
+                     style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px);">
+                    <i class="bi bi-people-fill fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-white text-opacity-75 text-uppercase fw-bold mb-1" style="font-size:0.75rem;">Penghuni Aktif</h6>
+                    <h2 class="fw-bold mb-0"><%= penyewa.length %> <span class="fs-6 fw-normal text-white-50">Orang</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card h-100 border-0 text-white shadow-sm rounded-4 overflow-hidden" style="background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);">
+            <div class="card-body d-flex align-items-center p-4">
+                <div class="rounded-circle p-3 me-3 d-flex align-items-center justify-content-center shadow-sm" 
+                     style="width: 60px; height: 60px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(5px);">
+                    <i class="bi bi-wallet-fill fs-3"></i>
+                </div>
+                <div>
+                    <h6 class="text-white text-opacity-75 text-uppercase fw-bold mb-1" style="font-size:0.75rem;">Transaksi Masuk</h6>
+                    <h2 class="fw-bold mb-0"><%= sewa.length %> <span class="fs-6 fw-normal text-white-50">Riwayat</span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            
+            <div class="card-header p-4 text-white border-0 d-flex justify-content-between align-items-center" 
+                 style="background: linear-gradient(45deg, #d97706, #f59e0b);">
+                
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-25 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 40px; height: 40px;">
+                        <i class="bi bi-clock-history fs-5"></i>
+                    </div>
+                    <div>
+                        <h6 class="mb-0 fw-bold">10 Transaksi Terakhir</h6>
+                        <p class="mb-0 small text-white-50">Memantau pembayaran sewa terbaru.</p>
+                    </div>
+                </div>
+
+                <a href="/penyewaan" class="btn btn-sm btn-light text-warning fw-bold rounded-pill px-3 shadow-sm">
+                    Lihat Semua <i class="bi bi-arrow-right ms-1"></i>
+                </a>
+            </div>
+            
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="bg-light text-secondary small text-uppercase">
+                            <tr>
+                                <th class="ps-4 py-3">Tanggal</th>
+                                <th>Penyewa</th>
+                                <th>Kamar</th>
+                                <th>Total Bayar</th>
+                                <th class="text-end pe-4">Status Pembayaran</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(sewa.length > 0) { %>
+                                <% sewa.forEach(item => { %>
+                                    <tr>
+                                        <td class="ps-4 text-muted fw-medium">
+                                            <%= item.created_at ? new Date(item.created_at).toLocaleDateString('id-ID') : '-' %>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="d-flex align-items-center">
+                                                <div class="bg-light border rounded-circle text-primary fw-bold d-flex justify-content-center align-items-center me-2" style="width:32px; height:32px; font-size:0.8rem;">
+                                                    <%= item.nama_lengkap.charAt(0) %>
+                                                </div>
+                                                <span class="fw-bold text-dark"><%= item.nama_lengkap %></span>
+                                            </div>
+                                        </td>
+                                        
+                                        <td>
+                                            <span class="badge bg-light text-dark border">
+                                                Unit <%= item.nomor_kamar %>
+                                            </span>
+                                        </td>
+                                        
+                                        <td class="fw-bold text-dark">
+                                            Rp <%= Number(item.total_bayar).toLocaleString('id-ID') %>
+                                        </td>
+                                        
+                                        <td class="text-end pe-4">
+                                            <% if(item.status_pembayaran === 'Lunas') { %>
+                                                <span class="badge badge-soft-success px-3 py-2 rounded-pill">
+                                                    <i class="bi bi-check-circle-fill me-1"></i> Lunas
+                                                </span>
+                                            <% } else { %>
+                                                <span class="badge badge-soft-danger px-3 py-2 rounded-pill">
+                                                    <i class="bi bi-exclamation-circle-fill me-1"></i> Belum Lunas
+                                                </span>
+                                            <% } %>
+                                        </td>
+                                    </tr>
+                                <% }) %>
+                            <% } else { %>
+                                <tr>
+                                    <td colspan="5" class="text-center py-5 text-muted">
+                                        <i class="bi bi-inbox fs-1 d-block mb-2 text-secondary opacity-50"></i>
+                                        Belum ada data transaksi.
+                                    </td>
+                                </tr>
+                            <% } %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

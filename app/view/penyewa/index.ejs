@@ -1,0 +1,67 @@
+<%- include('../partials/header') %>
+
+<div class="card border-0 shadow-sm overflow-hidden rounded-4">
+    
+    <div class="card-header py-3 px-4 text-white border-0 d-flex justify-content-between align-items-center" 
+         style="background: linear-gradient(45deg, #059669, #10b981);">
+        
+        <div class="d-flex align-items-center">
+            <i class="bi bi-people-fill me-2 fs-5"></i>
+            <h6 class="mb-0 fw-bold">List Data Penyewa</h6>
+        </div>
+
+        <a href="/penyewa/add" class="btn btn-sm btn-light text-success fw-bold rounded-pill px-4 shadow-sm">
+            <i class="bi bi-person-plus-fill me-1"></i> Tambah Penyewa
+        </a>
+    </div>
+
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-light text-secondary small text-uppercase">
+                    <tr>
+                        <th class="ps-4 py-3">Nama Lengkap</th>
+                        <th>NIK</th>
+                        <th>Kontak</th>
+                        <th>Alamat</th>
+                        <th class="text-end pe-4">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% if(data.length > 0) { %>
+                        <% data.forEach(row => { %>
+                            <tr>
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-light rounded-circle text-success fw-bold d-flex justify-content-center align-items-center me-3" style="width:35px; height:35px;">
+                                            <%= row.nama_lengkap.charAt(0) %>
+                                        </div>
+                                        <div>
+                                            <div class="fw-bold text-dark"><%= row.nama_lengkap %></div>
+                                            <div class="small text-muted">Penghuni</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-muted"><%= row.nik %></td>
+                                <td>
+                                    <a href="https://wa.me/<%= row.nomor_wa %>" target="_blank" class="text-decoration-none text-success fw-bold">
+                                        <i class="bi bi-whatsapp me-1"></i> <%= row.nomor_wa %>
+                                    </a>
+                                </td>
+                                <td class="text-muted small text-truncate" style="max-width: 200px;"><%= row.alamat_asal %></td>
+                                <td class="text-end pe-4">
+                                    <a href="/penyewa/edit/<%= row.id_penyewa %>" class="btn btn-sm btn-light text-primary border rounded-3 me-1"><i class="bi bi-pencil-square"></i></a>
+                                    <a href="/penyewa/delete/<%= row.id_penyewa %>" class="btn btn-sm btn-light text-danger border rounded-3" onclick="confirmDelete(event, this.href)"><i class="bi bi-trash"></i></a>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    <% } else { %>
+                        <tr><td colspan="5" class="text-center py-5 text-muted">Belum ada data penghuni.</td></tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

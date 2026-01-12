@@ -1,0 +1,75 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            
+            <div class="card-header p-4 text-white border-0" style="background: linear-gradient(45deg, #f59e0b, #d97706);">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-25 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 45px; height: 45px;">
+                        <i class="bi bi-pencil-square fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Edit Data Kamar</h5>
+                        <p class="mb-0 small text-white-50">Perbarui informasi kamar di bawah ini.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4 bg-white">
+                <form action="/kamar/update/<%= data.id_kamar %>" method="POST">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Nomor Kamar</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-hash"></i></span>
+                            <input type="text" class="form-control bg-light border-start-0" name="nomor" value="<%= data.nomor_kamar %>" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Tipe Kamar</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-stars"></i></span>
+                            <select class="form-select bg-light border-start-0" name="tipe" required>
+                                <option value="Standard (Kipas)" <%= data.tipe_kamar === 'Standard (Kipas)' ? 'selected' : '' %>>Standard (Kipas)</option>
+                                <option value="Deluxe (AC)" <%= data.tipe_kamar === 'Deluxe (AC)' ? 'selected' : '' %>>Deluxe (AC)</option>
+                                <option value="VIP Exclusive" <%= data.tipe_kamar === 'VIP Exclusive' ? 'selected' : '' %>>VIP Exclusive</option>
+                                <option value="Suite Room" <%= data.tipe_kamar === 'Suite Room' ? 'selected' : '' %>>Suite Room</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Harga (Rp)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 fw-bold text-primary">Rp</span>
+                            <input type="number" class="form-control bg-light border-start-0" name="harga" value="<%= data.harga_per_bulan %>" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Status</label>
+                        <select class="form-select bg-light" name="status">
+                            <option value="Kosong" <%= data.status_kamar === 'Kosong' ? 'selected' : '' %>>Tersedia (Kosong)</option>
+                            <option value="Terisi" <%= data.status_kamar === 'Terisi' ? 'selected' : '' %>>Sedang Terisi</option>
+                        </select>
+                    </div>
+
+                    <hr class="my-4 border-light">
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/kamar" class="btn btn-light rounded-pill px-4 py-2 fw-bold text-muted border">Batal</a>
+                        <button type="submit" class="btn btn-warning text-white rounded-pill px-5 py-2 fw-bold shadow-sm" style="background: linear-gradient(to right, #f59e0b, #d97706); border: none;">
+                            <i class="bi bi-check-circle me-2"></i>Simpan Perubahan
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<%- include('../partials/footer') %>

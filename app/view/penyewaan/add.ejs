@@ -1,0 +1,123 @@
+<%- include('../partials/header') %>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-7">
+        
+        <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
+            
+            <div class="card-header p-4 text-white border-0" style="background: linear-gradient(45deg, #d97706, #f59e0b);">
+                <div class="d-flex align-items-center">
+                    <div class="bg-white bg-opacity-25 rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 45px; height: 45px;">
+                        <i class="bi bi-receipt-cutoff fs-4"></i>
+                    </div>
+                    <div>
+                        <h5 class="mb-0 fw-bold">Input Transaksi & Check-In</h5>
+                        <p class="mb-0 small text-white-50">Masukkan data sewa kamar baru.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body p-4 bg-white">
+                <form action="/penyewaan/add" method="POST">
+                    
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">1. Pilih Penyewa</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-person-bounding-box"></i></span>
+                            <select class="form-select bg-light border-start-0 py-2" name="id_penyewa" required>
+                                <option value="" selected disabled>-- Cari Nama Penyewa --</option>
+                                <% penyewa.forEach(p => { %>
+                                    <option value="<%= p.id_penyewa %>"><%= p.nama_lengkap %> (NIK: <%= p.nik %>)</option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        <div class="form-text small text-muted ms-2">
+                            *Jika nama tidak ada, silakan input dulu di menu "Data Penyewa".
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">2. Pilih Kamar (Hanya yg Kosong)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 text-muted"><i class="bi bi-key-fill"></i></span>
+                            <select class="form-select bg-light border-start-0 py-2" id="id_kamar" name="id_kamar" onchange="updateHarga()" required>
+                                <option value="" selected disabled>-- Pilih Unit Kamar --</option>
+                                <% kamar.forEach(k => { %>
+                                    <option value="<%= k.id_kamar %>" data-harga="<%= k.harga_per_bulan %>">
+                                        Unit <%= k.nomor_kamar %> - <%= k.tipe_kamar %> (Rp <%= Number(k.harga_per_bulan).toLocaleString('id-ID') %>)
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Total Harga (Tagihan)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 fw-bold text-primary">Rp</span>
+                            <input type="number" class="form-control bg-light border-start-0 py-2" id="total_harga" name="total_harga" placeholder="0" readonly>
+                        </div>
+                        <div class="form-text small text-primary"><i class="bi bi-info-circle me-1"></i> Nilai ini terisi otomatis berdasarkan harga kamar.</div>
+                    </div>
+
+                    <div class="row g-3 mb-4">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small text-uppercase">Tanggal Mulai</label>
+                            <input type="date" class="form-control bg-light py-2" name="tgl_mulai" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold text-secondary small text-uppercase">Tanggal Selesai</label>
+                            <input type="date" class="form-control bg-light py-2" name="tgl_selesai" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Total Bayar (Uang Diterima)</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0 fw-bold text-success">Rp</span>
+                            <input type="number" class="form-control bg-light border-start-0 py-2" name="total" placeholder="Contoh: 500000" required>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold text-secondary small text-uppercase">Status Pembayaran</label>
+                        <select class="form-select bg-light py-2" name="status">
+                            <option value="Lunas">Lunas</option>
+                            <option value="Hutang">Belum Lunas (Hutang)</option>
+                        </select>
+                    </div>
+
+                    <hr class="my-4 border-light">
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a href="/penyewaan" class="btn btn-light rounded-pill px-4 py-2 fw-bold text-muted border">Batal</a>
+                        <button type="submit" class="btn btn-warning text-white rounded-pill px-5 py-2 fw-bold shadow-sm" style="background: linear-gradient(to right, #d97706, #f59e0b); border: none;">
+                            <i class="bi bi-check-lg me-2"></i>Simpan Transaksi
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateHarga() {
+    const kamarSelect = document.getElementById('id_kamar');
+    const hargaInput = document.getElementById('total_harga');
+    
+    // Mengambil atribut data-harga dari option yang dipilih
+    const selectedOption = kamarSelect.options[kamarSelect.selectedIndex];
+    const hargaKamar = selectedOption.getAttribute('data-harga');
+    
+    // Set nilai ke input total_harga
+    if (hargaKamar) {
+        hargaInput.value = hargaKamar;
+    } else {
+        hargaInput.value = 0;
+    }
+}
+</script>
+
+<%- include('../partials/footer') %>

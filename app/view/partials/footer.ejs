@@ -1,10 +1,70 @@
-<footer class="mt-20 py-10 border-t border-slate-200 bg-white">
-  <div class="text-center">
-    <p class="text-slate-500 font-medium text-sm">
-      &copy; 2024 Praktikum Teknologi Server
-    </p>
-    <p class="text-slate-400 text-xs mt-1">
-      Ditenagai oleh Express, MySQL & Docker 🐳
-    </p>
-  </div>
-</footer>
+</div> <footer class="mt-auto py-3 text-white small shadow-lg" 
+                style="background: linear-gradient(to right, #1e1b4b, #4f46e5); border-top: 1px solid rgba(255,255,255,0.1);">
+            <div class="container-fluid px-4">
+                <div class="row align-items-center justify-content-between">
+                    <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                        &copy; 2026 <strong>SiMKos App</strong> 
+                        <span class="mx-2">|</span> 
+                        <span class="opacity-75">Manajemen Kos Modern</span>
+                    </div>
+                    <div class="col-md-6 text-center text-md-end opacity-75">
+                        Dibuat oleh Kelompok D5 - Praktikum Tekser
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div> </div> <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // 1. Fungsi Pop Up Konfirmasi Hapus
+    function confirmDelete(event, url) {
+        event.preventDefault();
+
+        Swal.fire({
+            title: 'Apakah Anda Yakin?',
+            text: "Data yang dihapus tidak dapat dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33', 
+            cancelButtonColor: '#3085d6', 
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal',
+            reverseButtons: true,
+            background: '#fff',
+            borderRadius: '15px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = url;
+            }
+        })
+    }
+
+    // 2. Notifikasi Otomatis (Berhasil/Gagal)
+    const urlParams = new URLSearchParams(window.location.search);
+    const status = urlParams.get('status');
+    const message = urlParams.get('message');
+
+    if (status === 'success') {
+        Swal.fire({
+            icon: 'success',
+            title: 'Berhasil!',
+            text: message || 'Data berhasil disimpan.',
+            timer: 2000,
+            showConfirmButton: false,
+            toast: true,
+            position: 'top-end'
+        });
+    } else if (status === 'error') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Gagal!',
+            text: message || 'Terjadi kesalahan sistem.',
+        });
+    }
+</script>
+
+</body>
+</html>
