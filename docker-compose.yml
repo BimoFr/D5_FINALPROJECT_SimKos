@@ -44,7 +44,7 @@ services:
     container_name: nginx_${GROUP_NAME}
     restart: always
     ports:
-      - "${APP_PORT}:80"
+      - "80:80"
     depends_on:
       - app_service
     # Network
